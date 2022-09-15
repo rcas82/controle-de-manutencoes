@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-segundo',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SegundoComponent implements OnInit {
 
-  constructor() { }
+  teste = 'Aguardando...';
+
+  constructor( private route: ActivatedRoute ) { }
 
   ngOnInit(): void {
+    this.teste = this.route.snapshot.queryParamMap.get( 'teste' ) || 'Nenhum parâmetro recebido!';
   }
-
 }

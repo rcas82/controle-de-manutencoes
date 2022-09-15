@@ -7,6 +7,9 @@ import { PrimeiroComponent } from './primeiro/primeiro.component';
 import { SegundoComponent } from './segundo/segundo.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { BikeComponent } from './bike/bike.component';
+import { PrincipalComponent } from './principal/principal.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +17,10 @@ import { FooterComponent } from './footer/footer.component';
     PrimeiroComponent,
     SegundoComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    BikeComponent,
+    PrincipalComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
