@@ -1,0 +1,24 @@
+<div class="navbar-fixed" style="z-index: 1001 !important">
+  <nav>
+    <div class="nav-wrapper green">
+      <div data-target="mobile-menu">
+        <a routerLink="/" class="brand-logo"><img class="meu_logo" src="./assets/resources/maintenance-repair-kit.png" /></a>
+        <a routerLink="/" data-target="mobile-menu" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      </div>
+      <div class="brand-logo hide-on-med-and-down">
+        <a routerLink="/"><img class="meu_logo" src="./assets/resources/maintenance-repair-kit.png" /> {{title}}</a>
+      </div>
+      <ul class="right hide-on-med-and-down">
+        <li><a routerLink="/">Home</a></li>
+        <li><a routerLink="/agendamentos">Agendamentos</a></li>
+        <li><a routerLink="/bike">Bikes</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <ul class="sidenav green lighten-2" id="mobile-menu" #mobile>
+    <li><a routerLink="/">Home</a></li>
+    <li><a routerLink="/agendamentos">Agendamentos</a></li>
+    <li><a routerLink="/bike">Bikes</a></li>
+  </ul>
+</div>
