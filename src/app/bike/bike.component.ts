@@ -2,13 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { NgForm } from '@angular/forms';
 import { Bike } from './../model/bike';
-import { BikeService } from './bike-webstorage.service';
+import { BikePromiseService } from './bike-promise.service';
 
 @Component({
   selector: 'app-bike',
   templateUrl: './bike.component.html',
-  styleUrls: ['./bike.component.css'],
-  providers: [BikeService],
+  styleUrls: ['./bike.component.css']
 })
 export class BikeComponent implements OnInit {
   @ViewChild('form') form!: NgForm;
@@ -21,58 +20,94 @@ export class BikeComponent implements OnInit {
   isSuccess!: boolean;
   message!: string;
 
-  constructor(private bikeService: BikeService) { }
+  constructor(private bikePromiseService: BikePromiseService) { }
 
   ngOnInit(): void {
-    this.bike = new Bike(1, '', '', '');
-    this.bikes = this.bikeService.getBikes();
+    this.refreshList();
   }
 
   onSubmit() {
     this.isSubmitted = true;
-    if (!this.bikeService.isExist(this.bike.nome)) {
-      this.bikeService.save(this.bike);
+    if (this.bike.id == 0) {
+      this.bike.id = this.getNextId();
+      this.bikePromiseService.save(this.bike)
+        .then(() => {
+          this.isSuccess = true;
+          this.message = 'Cadastro realizado com sucesso!';
+          this.form.reset();
+          this.refreshList();
+        })
+        .catch((e) => {
+          this.isSuccess = false;
+          this.message = e;
+        })
+        .finally(() => {
+          console.log('Nova bike cadastrada com sucesso!');
+        });
     } else {
-      this.bikeService.update(this.bike);
+      this.bikePromiseService.update(this.bike)
+        .then(() => {
+          this.isSuccess = true;
+          this.message = 'Cadastro atualizado com sucesso!';
+          this.form.reset();
+          this.refreshList();
+        })
+        .catch((e) => {
+          this.isSuccess = false;
+          this.message = e;
+        })
+        .finally(() => {
+          console.log('Bike atualizada com sucesso!');
+        });
     }
     this.isShowMessage = true;
-    this.isSuccess = true;
-    this.message = 'Cadastro realizado com sucesso!';
-
-    this.form.reset();
-    this.bike = new Bike(1, '', '', '');
-
-    this.bikes = this.bikeService.getBikes();
   }
 
-  /**
-   * Realiza o clone do objeto, justamente para não refletir as mudanças
-   * imediatamente na lista de usuários cadastrados sem pressionar o submit.
-   * @param bike
-   */
   onEdit(bike: Bike) {
-    //this.user = user;
+    this.isShowMessage = false;
     let clone = Bike.clone(bike);
     this.bike = clone;
   }
 
-  onDelete(nome: string) {
-    let confirmation = window.confirm(
-      'Você tem certeza que deseja remover ' + nome
-    );
-    if (!confirmation) {
-      return;
+  onCancel() {
+    this.isShowMessage = false;
+    this.refreshList();
+  }
+
+  onDelete(delBike: Bike) {
+    if (window.confirm('Você tem certeza que deseja remover ' + delBike.nome)) {
+      let clone = Bike.clone(delBike);
+      this.bike = clone;
+      this.isShowMessage = true;
+      this.bikePromiseService.delete(delBike)
+        .then(() => {
+          this.isSuccess = true;
+          this.message = 'Cadastro removido com sucesso!';
+          this.refreshList();
+        })
+        .catch((e) => {
+          this.isSuccess = false;
+          this.message = e;
+        })
+        .finally(() => {
+          console.log('Bike removida!');
+        });
     }
-    let response: boolean = this.bikeService.delete(nome);
-    this.isShowMessage = true;
-    this.isSuccess = response;
-    if (response) {
-      this.message = 'O item foi removido com sucesso!';
-      this.form.reset();
-      this.bike = new Bike(1, '', '', '');
+  }
+
+  getNextId(): number {
+    if (this.bikes != null) {
+      const maxId = Math.max(...this.bikes.map((b) => b.id), 0);
+      return maxId + 1;
     } else {
-      this.message = 'Opps! O item não pode ser removido!';
+      return 1;
     }
-    this.bikes = this.bikeService.getBikes();
+  }
+
+  refreshList() {
+    this.bike = new Bike('', '', '');
+    this.bikePromiseService
+      .getAll()
+      .then((promiseBikes) => (this.bikes = promiseBikes));
   }
 }

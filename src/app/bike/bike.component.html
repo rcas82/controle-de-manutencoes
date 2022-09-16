@@ -15,7 +15,7 @@
         <div class="input-field col s12">
           <input id="input-nome" name="input-nome" type="text" class="validate" [(ngModel)]="this.bike.nome"
             pattern="[A-Za-z][A-Za-z0-9\s]+" #nome="ngModel" required />
-          <label for="input-nome">Nome *</label>
+          <label class="active" for="input-nome">Nome *</label>
           <div class="red-text" [hidden]="nome.valid || nome.untouched">
             Por favor, informe o nome.
           </div>
@@ -28,7 +28,7 @@
         <div class="input-field col s6">
           <input id="input-marca" name="input-marca" type="text" class="validate" [(ngModel)]="this.bike.marca"
             pattern="[A-Za-z][A-Za-z0-9\s]+" #marca="ngModel" required />
-          <label for="input-marca">Marca *</label>
+          <label class="active" for="input-marca">Marca *</label>
           <div class="red-text" [hidden]="marca.valid || marca.untouched">
             Por favor, informe uma marca.
           </div>
@@ -39,7 +39,7 @@
         <div class="input-field col s6">
           <input id="input-modelo" name="input-modelo" type="text" class="validate" [(ngModel)]="this.bike.modelo"
             pattern="[A-Za-z0-9][A-Za-z0-9-\s]+" #modelo="ngModel" required />
-          <label for="input-modelo">Modelo *</label>
+          <label class="active" for="input-modelo">Modelo *</label>
           <div class="red-text" [hidden]="modelo.valid || modelo.untouched">
             Por favor, informe o modelo.
           </div>
@@ -49,21 +49,21 @@
         </div>
       </div>
       <div class="row">
-        <div class="input-field col s6">
+        <div class="input-field col s4">
           <input id="input-data" name="input-data" type="date" class="validate" [(ngModel)]="this.bike.data" />
-          <label for="input-data">Data de Aquisição</label>
+          <label class="active" for="input-data">Data de Aquisição</label>
         </div>
-        <div class="input-field col s6">
+        <div class="input-field col s4">
           <input id="input-valor" name="input-valor" type="text" class="validate money" [(ngModel)]="this.bike.valor"
-            mask="separator.2" [thousandSeparator]="'.'" [decimalMarker]="','" [dropSpecialCharacters]="true"
-            [showMaskTyped]="false" />
-          <label for="input-valor">Valor de aquisição</label>
+            mask="separator.2" [thousandSeparator]="'.'" [decimalMarker]="','"
+            [dropSpecialCharacters]="true" [showMaskTyped]="false" />
+          <label class="active" for="input-valor">Valor de aquisição</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
           <input id="input-descricao" name="input-descricao" type="text" [(ngModel)]="this.bike.descricao" />
-          <label for="input-descricao">Descrição</label>
+          <label class="active" for="input-descricao">Descrição</label>
         </div>
       </div>
       <div class="row">
@@ -71,7 +71,7 @@
           Enviar
           <i class="material-icons right">send</i>
         </button>
-        <button class="btn waves-effect waves-light amber darken-4 espaco" type="reset">
+        <button class="btn waves-effect waves-light amber darken-4 espaco" type="reset" (click)="onCancel()">
           Limpar
           <i class="material-icons right">clear</i>
         </button>
@@ -89,8 +89,8 @@
         <th>Marca</th>
         <th>Data aquisição</th>
         <th>Valor Aquisição</th>
-        <th>Aposentada</th>
         <th>Descrição</th>
+        <th>Aposentada</th>
       </tr>
     </thead>
 
@@ -99,13 +99,13 @@
         <td>{{ bike.nome }}</td>
         <td>{{ bike.marca }}</td>
         <td>{{ bike.modelo }}</td>
-        <td>{{ bike.data }}</td>
+        <td>{{ bike.data | date: 'dd/MM/yyyy' }}</td>
         <td>{{ bike.valor | currency: "BRL" }}</td>
         <td>{{ bike.descricao | titlecase }}</td>
         <td>{{ bike.isAposentada ? 'Sim' : '' }}</td>
         <td class="right">
           <a><i class="material-icons my-icon-size" (click)="onEdit(bike)">edit</i></a>
-          <a><i class="material-icons my-icon-size" (click)="onDelete(bike.nome)">delete</i></a>
+          <a><i class="material-icons my-icon-size" (click)="onDelete(bike)">delete</i></a>
         </td>
       </tr>
     </tbody>

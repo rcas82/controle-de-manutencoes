@@ -14,6 +14,8 @@ import { PrincipalComponent } from './principal/principal.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
@@ -24,14 +26,16 @@ import { ReactiveFormsModule } from '@angular/forms';
     FooterComponent,
     BikeComponent,
     PrincipalComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     NgxMaskModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
