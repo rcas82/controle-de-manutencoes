@@ -16,7 +16,7 @@
       "nome": "Vitus 29",
       "marca": "Caloi",
       "modelo": "Vitus 29",
-      "isAposentada": 1,
+      "isAposentada": true,
       "data": "2014-12-10",
       "valor": 5000,
       "descricao": ""
@@ -36,23 +36,23 @@
       "id": 3,
       "userId": 2,
       "nome": "Jaqueline",
-      "modelo": "Magma HT",
       "marca": "Soul",
+      "modelo": "Magma HT",
+      "isAposentada": false,
       "data": "2020-02-07",
       "valor": 9775,
-      "descricao": "Upgrade de banco",
-      "isAposentada": 0
+      "descricao": "Upgrade de banco"
     },
     {
       "id": 4,
       "userId": 1,
       "nome": "Gravel",
-      "modelo": "Spry Apex",
       "marca": "Soul",
+      "modelo": "Spry Apex",
+      "isAposentada": 0,
       "data": "2020-04-17",
       "valor": 8990,
-      "descricao": "Gravel",
-      "isAposentada": 0
+      "descricao": "Gravel"
     },
     {
       "id": 5,
@@ -67,6 +67,7 @@
     },
     {
       "id": 6,
+      "userId": 1,
       "nome": "Horse With No Name",
       "modelo": "Agile Pro XT",
       "marca": "Oggi",

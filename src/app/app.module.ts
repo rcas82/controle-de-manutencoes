@@ -15,7 +15,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { UserComponent } from './user/user.component';
+import { UserByIdPipe } from './bike/user-by-id.pipe';
 
 @NgModule({
   declarations: [
@@ -27,7 +27,7 @@ import { UserComponent } from './user/user.component';
     BikeComponent,
     PrincipalComponent,
     PageNotFoundComponent,
-    UserComponent
+    UserByIdPipe
   ],
   imports: [
     BrowserModule,

@@ -12,6 +12,15 @@
 
     <form class="col s12" #form="ngForm" (submit)="onSubmit()">
       <div class="row">
+        <div class="input-field col s4">
+          <select [(ngModel)]="this.bike.userId" name="user" (change)="userChange($event)" #userSelected required>
+            <option class="dropdown-item" [ngValue]="undefined" disabled>Selecione...</option>
+            <option class="dropdown-item" *ngFor="let u of users" [ngValue]="u.id">{{ u.nome }}</option>
+          </select>
+          <label for="user">Usuário *</label>
+        </div>
+      </div>
+      <div class="row">
         <div class="input-field col s12">
           <input id="input-nome" name="input-nome" type="text" class="validate" [(ngModel)]="this.bike.nome"
             pattern="[A-Za-z][A-Za-z0-9\s]+" #nome="ngModel" required />
@@ -55,9 +64,15 @@
         </div>
         <div class="input-field col s4">
           <input id="input-valor" name="input-valor" type="text" class="validate money" [(ngModel)]="this.bike.valor"
-            mask="separator.2" [thousandSeparator]="'.'" [decimalMarker]="','"
-            [dropSpecialCharacters]="true" [showMaskTyped]="false" />
+            mask="separator.2" [thousandSeparator]="'.'" [decimalMarker]="','" [dropSpecialCharacters]="true"
+            [showMaskTyped]="false" />
           <label class="active" for="input-valor">Valor de aquisição</label>
+        </div>
+        <div class="input-field col s4">
+          <label>
+            <input class="filled-in" type="checkbox" name="bikeAposentada" [(ngModel)]="this.bike.isAposentada" />
+            <span>Aposentada?</span>
+          </label>
         </div>
       </div>
       <div class="row">
@@ -84,6 +99,7 @@
   <table class="highlight" *ngIf="bikes && bikes!.length > 0">
     <thead>
       <tr>
+        <th>Usuário</th>
         <th>Nome</th>
         <th>Modelo</th>
         <th>Marca</th>
@@ -96,6 +112,7 @@
 
     <tbody>
       <tr *ngFor="let bike of bikes">
+        <td>{{ bike.userId | userById:users }}</td>
         <td>{{ bike.nome }}</td>
         <td>{{ bike.marca }}</td>
         <td>{{ bike.modelo }}</td>
@@ -119,5 +136,4 @@
       </div>
     </div>
   </div>
-
 </div>

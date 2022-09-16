@@ -1,8 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { UserService } from '../service/user.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 import { NgForm } from '@angular/forms';
 import { Bike } from './../model/bike';
 import { BikePromiseService } from './bike-promise.service';
+import { User } from '../model/user';
+
+import * as M from 'materialize-css';
 
 @Component({
   selector: 'app-bike',
@@ -11,6 +15,9 @@ import { BikePromiseService } from './bike-promise.service';
 })
 export class BikeComponent implements OnInit {
   @ViewChild('form') form!: NgForm;
+  @ViewChild('userSelected') userSelect!: ElementRef;
+  user?: User;
+  users!: User[];
 
   bike!: Bike;
   bikes?: Bike[];
@@ -20,10 +27,21 @@ export class BikeComponent implements OnInit {
   isSuccess!: boolean;
   message!: string;
 
-  constructor(private bikePromiseService: BikePromiseService) { }
+  constructor(private bikePromiseService: BikePromiseService, private userService: UserService) { }
 
   ngOnInit(): void {
     this.refreshList();
+    this.userService.listUsers().subscribe(
+      (users) => {
+        this.users = users;
+        setTimeout(() => {
+          M.FormSelect.init(this.userSelect.nativeElement), 100
+        });
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   onSubmit() {
@@ -67,6 +85,11 @@ export class BikeComponent implements OnInit {
     this.isShowMessage = false;
     let clone = Bike.clone(bike);
     this.bike = clone;
+    const user = this.users.find(user => user.id === bike.userId);
+    this.user = user;
+    setTimeout(() => {
+      M.FormSelect.init(this.userSelect.nativeElement), 100
+    });
   }
 
   onCancel() {
@@ -109,5 +132,10 @@ export class BikeComponent implements OnInit {
     this.bikePromiseService
       .getAll()
       .then((promiseBikes) => (this.bikes = promiseBikes));
+  }
+
+  userChange(event: any) {
+    console.log("selected value", event.target.value, 'value of selected', this.user);
+    this.user = event.target.value;
   }
 }

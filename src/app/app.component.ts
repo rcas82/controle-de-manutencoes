@@ -1,4 +1,3 @@
-import * as M from 'materialize-css';
 import { Component } from '@angular/core';
 
 @Component({

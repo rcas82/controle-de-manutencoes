@@ -5,7 +5,6 @@ import { SegundoComponent } from './segundo/segundo.component';
 import { PrincipalComponent } from './principal/principal.component';
 import { BikeComponent } from './bike/bike.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'principal', pathMatch: 'full' },
@@ -13,7 +12,6 @@ const routes: Routes = [
   { path: 'bike', component: BikeComponent },
   { path: 'primeiro/:teste', component: PrimeiroComponent },
   { path: 'segundo', component: SegundoComponent },
-  { path: 'user', component: UserComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 
