@@ -27,4 +27,4 @@ https://rcas82.github.io/controle-de-manutencoes/
 - [x] Usar a diretiva ngIf
 - [x] Formatar a apresentação de dados com Pipes.
 - [x] Fazer requisições a API com tratamento da resposta com Observables.
-- Build e deploy da aplicação.
+- [x] Build e deploy da aplicação.
