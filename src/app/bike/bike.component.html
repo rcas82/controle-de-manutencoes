@@ -1,0 +1,139 @@
+<div class="container contact">
+  <h5>Cadastro de Bicicletas</h5>
+  <h6>Entre com os dados da bicicleta</h6>
+  <hr />
+  <div class="row">
+    <div class="col s12">
+      <div id="msg-login" class="card-panel white-text" [class.red]="!this.isSuccess" [class.blue]="this.isSuccess"
+        *ngIf="this.isShowMessage">
+        {{ this.message }}
+      </div>
+    </div>
+
+    <form class="col s12" #form="ngForm" (submit)="onSubmit()">
+      <div class="row">
+        <div class="input-field col s4">
+          <select [(ngModel)]="this.bike.userId" name="user" (change)="userChange($event)" #userSelected required>
+            <option class="dropdown-item" [ngValue]="undefined" disabled>Selecione...</option>
+            <option class="dropdown-item" *ngFor="let u of users" [ngValue]="u.id">{{ u.nome }}</option>
+          </select>
+          <label for="user">Usuário *</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="input-nome" name="input-nome" type="text" class="validate" [(ngModel)]="this.bike.nome"
+            pattern="[A-Za-z][A-Za-z0-9\s]+" #nome="ngModel" required />
+          <label class="active" for="input-nome">Nome *</label>
+          <div class="red-text" [hidden]="nome.valid || nome.untouched">
+            Por favor, informe o nome.
+          </div>
+          <div class="red-text" *ngIf="nome.errors?.['required'] && nome.touched">
+            Por favor, o nome é obrigatório.
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="input-marca" name="input-marca" type="text" class="validate" [(ngModel)]="this.bike.marca"
+            pattern="[A-Za-z][A-Za-z0-9\s]+" #marca="ngModel" required />
+          <label class="active" for="input-marca">Marca *</label>
+          <div class="red-text" [hidden]="marca.valid || marca.untouched">
+            Por favor, informe uma marca.
+          </div>
+          <div class="red-text" *ngIf="marca.errors?.['required'] && marca.touched">
+            Por favor, a marca é obrigatória.
+          </div>
+        </div>
+        <div class="input-field col s6">
+          <input id="input-modelo" name="input-modelo" type="text" class="validate" [(ngModel)]="this.bike.modelo"
+            pattern="[A-Za-z0-9][A-Za-z0-9-\s]+" #modelo="ngModel" required />
+          <label class="active" for="input-modelo">Modelo *</label>
+          <div class="red-text" [hidden]="modelo.valid || modelo.untouched">
+            Por favor, informe o modelo.
+          </div>
+          <div class="red-text" *ngIf="modelo.errors?.['required'] && modelo.touched">
+            Por favor, o modelo é obrigatório.
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s4">
+          <input id="input-data" name="input-data" type="date" class="validate" [(ngModel)]="this.bike.data" />
+          <label class="active" for="input-data">Data de Aquisição</label>
+        </div>
+        <div class="input-field col s4">
+          <input id="input-valor" name="input-valor" type="text" class="validate money" [(ngModel)]="this.bike.valor"
+            mask="separator.2" [thousandSeparator]="'.'" [decimalMarker]="','" [dropSpecialCharacters]="true"
+            [showMaskTyped]="false" />
+          <label class="active" for="input-valor">Valor de aquisição</label>
+        </div>
+        <div class="input-field col s4">
+          <label>
+            <input class="filled-in" type="checkbox" name="bikeAposentada" [(ngModel)]="this.bike.isAposentada" />
+            <span>Aposentada?</span>
+          </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="input-descricao" name="input-descricao" type="text" [(ngModel)]="this.bike.descricao" />
+          <label class="active" for="input-descricao">Descrição</label>
+        </div>
+      </div>
+      <div class="row">
+        <button class="btn waves-effect waves-light amber darken-4" type="submit" [disabled]="!form.valid">
+          Enviar
+          <i class="material-icons right">send</i>
+        </button>
+        <button class="btn waves-effect waves-light amber darken-4 espaco" type="reset" (click)="onCancel()">
+          Limpar
+          <i class="material-icons right">clear</i>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <h5>Bicicletas cadastradas</h5>
+  <!-- Tabela de bicicletas -->
+  <table class="highlight" *ngIf="bikes && bikes!.length > 0">
+    <thead>
+      <tr>
+        <th>Usuário</th>
+        <th>Nome</th>
+        <th>Modelo</th>
+        <th>Marca</th>
+        <th>Data aquisição</th>
+        <th>Valor Aquisição</th>
+        <th>Descrição</th>
+        <th>Aposentada</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let bike of bikes">
+        <td>{{ bike.userId | userById:users }}</td>
+        <td>{{ bike.nome }}</td>
+        <td>{{ bike.marca }}</td>
+        <td>{{ bike.modelo }}</td>
+        <td>{{ bike.data | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ bike.valor | currency: "BRL" }}</td>
+        <td>{{ bike.descricao | titlecase }}</td>
+        <td>{{ bike.isAposentada ? 'Sim' : '' }}</td>
+        <td class="right">
+          <a><i class="material-icons my-icon-size" (click)="onEdit(bike)">edit</i></a>
+          <a><i class="material-icons my-icon-size" (click)="onDelete(bike)">delete</i></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!bikes || bikes!.length == 0">
+    <div class="row">
+      <div class="center-align">
+        <i class="col s12 material-icons large">mood_bad</i>
+        <span class="col s12 flow-text">Ainda não temos bicicletas cadastradas!</span>
+      </div>
+    </div>
+  </div>
+</div>

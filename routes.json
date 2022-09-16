@@ -1,0 +1,6 @@
+{
+  "/bicicletas": "/bikes",
+  "/bicicletas/:nome": "/bikes?nome=:nome",
+  "/bicicletas/usuario/:id": "/bikes?userId=:id",
+  "/usuarios": "/users"
+}
